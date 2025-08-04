@@ -33,7 +33,8 @@ class Customer:
 
         return fuel_there_and_back + product_total
 
-    def buy_products(self, shop: Shop) -> int:
+    def buy_products(self, shop: Shop) -> None:
+
         print(f"\nDate: {data.strftime('%d/%m/%Y %H:%M:%S')}")
         print(f"Thanks, {self.name}, for your purchase!")
         print("You have bought:")
@@ -49,6 +50,3 @@ class Customer:
         print("See you again!")
 
         self.location = shop.location
-        self.money -= total_cost
-
-        return total_cost
