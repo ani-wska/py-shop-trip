@@ -43,9 +43,9 @@ class Customer:
             price = shop.get_product_price(product_name)
             cost = price * quantity
             total_cost += cost
-            print(f"{quantity} {product_name}s for {cost: g} dollars")
+            print(f"{quantity} {product_name}s for {cost:g} dollars")
 
-        print(f"Total cost is {total_cost: g} dollars")
+        print(f"Total cost is {total_cost:g} dollars")
         print("See you again!")
 
         self.location = shop.location
