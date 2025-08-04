@@ -18,28 +18,40 @@ def shop_trip() -> None:
         print(f"{customer.name} has {customer.money} dollars")
 
         best_shop = None
-        min_cost = float("inf")
+        min_total_cost = float("inf")
 
         for shop in shops:
-            trip_cost = customer.total_trip_cost(shop, fuel_price)
-            print(f"{customer.name}'s trip to the {shop.name} "
-                  f"costs {trip_cost: .2f}")
+            distance = customer.calculate_distance(shop.location)
+            fuel_trip_cost = 2 * customer.fuel_cost(distance, fuel_price)
 
-            if trip_cost < min_cost:
-                min_cost = trip_cost
+            try:
+                purchase_cost = 0
+                for product, qty in customer.product_cart.items():
+                    price = shop.get_product_price(product)
+                    purchase_cost += price * qty
+            except ValueError:
+                continue
+
+            total_cost = fuel_trip_cost + purchase_cost
+
+            print(f"{customer.name}'s trip to the {shop.name} "
+                  f"costs {total_cost:.2f}")
+
+            if total_cost < min_total_cost:
+                min_total_cost = total_cost
                 best_shop = shop
 
-        if best_shop and min_cost <= customer.money:
+        if best_shop and min_total_cost <= customer.money:
             print(f"{customer.name} rides to {best_shop.name}")
 
             total_purchase_cost = customer.buy_products(best_shop)
 
             distance = customer.calculate_distance(best_shop.location)
-            trip_cost = 2 * (customer.fuel_cost(distance, fuel_price))
-            customer.money -= (total_purchase_cost + trip_cost)
+            fuel_cost_total = 2 * customer.fuel_cost(distance, fuel_price)
 
+            customer.money -= (total_purchase_cost + fuel_cost_total)
             print(f"{customer.name} rides home")
-            print(f"{customer.name} now has {customer.money: .2f} dollars")
+            print(f"{customer.name} now has {customer.money:.2f} dollars")
         else:
-            print(f"{customer.name} doesn't have enough money to "
-                  f"make a purchase in any shop")
+            print(f"{customer.name} doesn't have enough money "
+                  f"to make a purchase in any shop")

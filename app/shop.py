@@ -4,7 +4,7 @@ class Shop:
         self.location = location
         self.products = products
 
-    def get_product_price(self, product_name: str) -> str:
+    def get_product_price(self, product_name: str) -> int:
         if product_name in self.products:
             return self.products[product_name]
         else:
